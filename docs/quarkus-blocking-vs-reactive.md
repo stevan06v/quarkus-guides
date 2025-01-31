@@ -63,6 +63,31 @@ public Uni<TodoReport> getTodoReport() {
 
 ---
 
+## 🚀 Why You Still "Wait" in a Reactive API
+You're absolutely right—whether **blocking or reactive**, you always need to **wait** for data before sending a response. The difference is **how** you wait.
+
+- **Blocking (Traditional)** → **Thread waits** until data is available.
+- **Reactive (Non-blocking)** → **Thread is freed**, and the response is sent once data arrives.
+
+With a **blocking API**, the **server thread is occupied** while waiting for the database.  
+With a **reactive API**, the **server thread is free** to handle other requests while waiting for the database.
+
+### **🚀 What Happens in Your API Call (`getReport`)?**
+When a client calls **`GET /report`**, the server must:
+1. **Fetch todos from the database** (this takes time).
+2. **Process the todos** (calculate counts).
+3. **Return the `TodoReport`** to the client.
+
+This happens **whether blocking or reactive**—the difference is **how efficiently** the waiting is handled.
+
+### **🚀 Key Difference: Who Handles the Waiting?**
+| Approach | How It Waits? | Impact on Performance |
+|----------|--------------|----------------------|
+| **Blocking** | Server **thread waits** | **Inefficient for high traffic** |
+| **Reactive** | **No thread is locked**, event triggers response | **Scales better under load** |
+
+---
+
 ## 🚀 Real-World Example: Why Reactivity Matters
 
 Imagine **1000 users request the report** at the same time.
@@ -86,4 +111,13 @@ Imagine **1000 users request the report** at the same time.
 
 ---
 
+## ❓ Questions Somebody Might Ask
+- **Why do I need a reactive API if my app is not high-traffic?**
+- **How does reactivity improve scalability?**
+- **Does reactivity mean I never wait for data?**
+- **When should I use `Multi` instead of `Uni`?**
+- **How do I debug reactive APIs if things happen asynchronously?**
+- **What are the trade-offs of a reactive system?**
+
 🔥 **Want an example using `Multi` (for streaming reports in real-time)? Let me know! 🚀**
+
