@@ -84,7 +84,22 @@ This happens **whether blocking or reactive**—the difference is **how efficien
 | Approach | How It Waits? | Impact on Performance |
 |----------|--------------|----------------------|
 | **Blocking** | Server **thread waits** | **Inefficient for high traffic** |
-| **Reactive** | **No thread is locked**, event triggers response | **Scales better under load** |
+| **Reactive** | **A worker thread waits, main thread is free** | **More efficient, scales better** |
+
+---
+
+## 🚀 Why Reactivity is More Efficient
+1. **Worker Threads vs. Main Threads**  
+   - In a **blocking** system, each request **locks a main thread** while waiting.
+   - In a **reactive** system, the request is **delegated** to an I/O worker, freeing the main thread for other requests.
+
+2. **Thread Pool Utilization**  
+   - A blocking system needs **many more threads** to handle concurrent requests.
+   - A reactive system uses **fewer worker threads**, making it **more scalable**.
+
+3. **Event-Driven Execution**  
+   - In reactivity, a **callback/event triggers execution** only when data arrives.
+   - This avoids **constant polling** or unnecessary resource usage.
 
 ---
 
@@ -114,10 +129,11 @@ Imagine **1000 users request the report** at the same time.
 ## ❓ Questions Somebody Might Ask
 - **Why do I need a reactive API if my app is not high-traffic?**
 - **How does reactivity improve scalability?**
-- **Does reactivity mean I never wait for data?**
-- **When should I use `Multi` instead of `Uni`?**
-- **How do I debug reactive APIs if things happen asynchronously?**
+- **Does reactivity mean no thread is used at all?**
+- **How is a reactive system different from traditional multithreading?**
 - **What are the trade-offs of a reactive system?**
+- **How do I debug reactive APIs if things happen asynchronously?**
+- **When should I use `Multi` instead of `Uni`?**
 
 🔥 **Want an example using `Multi` (for streaming reports in real-time)? Let me know! 🚀**
 
